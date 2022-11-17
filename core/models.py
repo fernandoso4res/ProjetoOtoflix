@@ -1,6 +1,6 @@
-from django.db import models
-from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.base_user import BaseUserManager
+from django.contrib.auth.models import AbstractUser
+from django.db import models
 
 
 class UserManager(BaseUserManager):
@@ -68,3 +68,31 @@ class Teacher(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     revenue = models.FloatField()
     show_revenue = models.BooleanField()
+
+
+class Category(models.Model):
+    name = models.CharField(max_length=150)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self) -> str:
+        return self.name
+
+class Deck(models.Model):
+    title = models.CharField(max_length=150)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def get_flashcards(self):
+        flashcards = FlashCard.objects.filter(deck=self)
+        return flashcards
+
+    def __str__(self) -> str:
+        return self.title
+
+class FlashCard(models.Model):
+    question = models.TextField()
+    answer = models.TextField()
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    deck = models.ForeignKey(Deck, on_delete=models.CASCADE, default=None, related_name='flashcards')    

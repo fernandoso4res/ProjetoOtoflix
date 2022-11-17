@@ -1,10 +1,20 @@
 from rest_framework import viewsets
 from rest_framework.generics import ListAPIView
 
-from .models import Student
-from .serializers import StudentSerializer
+from . import models, serializers
 
 
 class StudentAPIv1ViewSet(viewsets.ReadOnlyModelViewSet):
-    serializer_class = StudentSerializer
-    queryset = Student.objects.all()
+    serializer_class = serializers.StudentSerializer
+    queryset = models.Student.objects.all()
+
+
+class FlashCardAPIv1ViewSet(viewsets.ModelViewSet):
+    serializer_class = serializers.FlashCardSerializer
+    queryset = models.FlashCard.objects.all()
+
+
+class DeckAPIv1ViewSet(viewsets.ModelViewSet):
+    serializer_class = serializers.DeckSerializer
+    queryset = models.Deck.objects.all()
+    

@@ -5,6 +5,8 @@ from . import views
 
 router = routers.SimpleRouter()
 router.register(r'student', views.StudentAPIv1ViewSet)
+router.register(r'flashcards', views.FlashCardAPIv1ViewSet)
+router.register(r'decks', views.DeckAPIv1ViewSet)
 
 
 urlpatterns = [
