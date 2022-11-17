@@ -40,9 +40,6 @@ class User(AbstractUser):
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 
-class Courses(models.Model):
-    ...
-
 class Student(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
@@ -84,10 +81,6 @@ class Deck(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
-    def get_flashcards(self):
-        flashcards = FlashCard.objects.filter(deck=self)
-        return flashcards
-
     def __str__(self) -> str:
         return self.title
 
@@ -96,3 +89,65 @@ class FlashCard(models.Model):
     answer = models.TextField()
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     deck = models.ForeignKey(Deck, on_delete=models.CASCADE, default=None, related_name='flashcards')    
+
+class Course(models.Model):
+    name = models.CharField(max_length=255)
+    description = models.TextField()
+    course_image = models.ImageField(upload_to='core/pictures/%Y/%m/%d')
+    teacher_name = models.TextField()
+    duration = models.TimeField(auto_now=False, auto_now_add=False)
+    course_classification = models.FloatField()
+    last_update = models.DateTimeField(auto_now=True)
+    course_expiration = models.DateTimeField(auto_now=False, auto_now_add=False)
+    teacher_id = models.ForeignKey(Teacher, on_delete=models.CASCADE)
+
+class Module(models.Model):
+    name = models.CharField(max_length=50)
+    course_id = models.ForeignKey(Course, on_delete=models.CASCADE)
+    
+class Grade(models.Model):
+    name = models.CharField(max_length=255)
+    module_id = models.ForeignKey(Module, on_delete=models.CASCADE)
+    duration = models.TimeField(auto_now=False, auto_now_add=False)
+    comments = models.TextField()
+    video = models.URLField(max_length=255)
+
+class BenefitClub(models.Model):
+    benefit_name = models.CharField(max_length=255)
+    benefit_description = models.TextField()
+    benefit_end_date = models.DateTimeField(auto_now=True)
+    benefit_percentage = models.FloatField()
+    saved_amount = models.FloatField()
+    benefit_link = models.URLField(max_length=255)
+
+class Subscriptions(models.Model):
+    student_id = models.ForeignKey(Student, on_delete=models.CASCADE)
+    subscription_name = models.CharField(max_length=255)
+    subscription_description = models.TextField()
+    subscription_price = models.FloatField()
+    subscription_duration_unit = models.CharField(max_length=50)
+    subscription_duration_value = models.IntegerField()
+    
+class QuestionsMultipeChoice(models.Model):
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    question = models.TextField()
+    image = models.URLField(max_length=255)
+    video = models.URLField(max_length=255)
+    type_question = models.CharField(max_length=255)
+    right_answer = models.TextField()
+    explication = models.TextField()
+    alternatives = models.TextField()
+
+class QuestionsText(models.Model):
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    question = models.TextField()
+    image = models.URLField(max_length=255)
+    video = models.URLField(max_length=255)
+    type_question = models.CharField(max_length=255)
+
+class Simulated(models.Model):
+    teacher_id = models.ForeignKey(Teacher, on_delete=models.CASCADE)
+    creator = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    limit_time = models.TimeField(auto_now=True)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
