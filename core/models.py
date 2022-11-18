@@ -36,6 +36,7 @@ class User(AbstractUser):
     is_teacher = models.BooleanField(default=False)
     username = None
     email = models.EmailField(unique=True)
+
     objects = UserManager()
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
@@ -49,12 +50,8 @@ class Student(models.Model):
     user_type = models.CharField(max_length=255)
     token = models.TextField()
     created_at = models.DateTimeField( auto_now_add=True)
-    total = models.FloatField()
-     
-    
-    
-    
-    
+    total = models.FloatField() 
+  
 class Teacher(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
@@ -104,7 +101,7 @@ class Course(models.Model):
 class Module(models.Model):
     name = models.CharField(max_length=50)
     course_id = models.ForeignKey(Course, on_delete=models.CASCADE)
-    
+   
 class Grade(models.Model):
     name = models.CharField(max_length=255)
     module_id = models.ForeignKey(Module, on_delete=models.CASCADE)
@@ -127,7 +124,7 @@ class Subscriptions(models.Model):
     subscription_price = models.FloatField()
     subscription_duration_unit = models.CharField(max_length=50)
     subscription_duration_value = models.IntegerField()
-    
+   
 class QuestionsMultipeChoice(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     question = models.TextField()

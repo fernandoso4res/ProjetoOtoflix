@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from pathlib import Path
 
+from datetime import timedelta
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -39,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'core',
+    'rest_framework_simplejwt',
 ]
 
 MIDDLEWARE = [
@@ -113,6 +115,7 @@ USE_I18N = True
 
 USE_TZ = True
 
+SECRET_KEY_JWT = 'dgqbgbqwfioad qwbfwqbcjw u3jv623623 vh v2ujvuovb'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
@@ -123,6 +126,25 @@ STATICFILES_DIRS = [
 ]
 MEDIA_URL = '/pictures/'
 MEDIA_ROOT = BASE_DIR / 'pictures'
+
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'BLACKLIST_AFTER_ROTATION': False,
+    'SIGNING_KEY': SECRET_KEY_JWT,
+    'AUTH_HEADER_TYPES': ('Bearer',),
+    
+}
+
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication'
+    ),
+}
+
 
 
 AUTH_USER_MODEL = 'core.User'
