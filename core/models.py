@@ -37,25 +37,23 @@ class User(AbstractUser):
     username = None
     email = models.EmailField(unique=True)
 
-    proflie_picture = models.ImageField(upload_to='core/pictures/%Y/%m/%d/', blank=True, null=True)
+    profile_picture = models.ImageField(upload_to='core/pictures/%Y/%m/%d/', blank=True, null=True)
+    nickname = models.CharField(max_length=255, blank=True, null=True)
     objects = UserManager()
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 
 class Student(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='user')
-    user_type = models.CharField(max_length=255)
+    user_type = models.CharField(max_length=255, default='Student')
     token = models.TextField()
     created_at = models.DateTimeField( auto_now_add=True)
     total = models.FloatField()
-     
-    
-    
     
     
 class Teacher(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    user_type = models.CharField(max_length=255)
+    user_type = models.CharField(max_length=255, default='Teacher')
     token = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     revenue = models.FloatField()
