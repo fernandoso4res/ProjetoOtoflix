@@ -17,4 +17,18 @@ class FlashCardAPIv1ViewSet(viewsets.ModelViewSet):
 class DeckAPIv1ViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.DeckSerializer
     queryset = models.Deck.objects.all()
-    
+
+
+class BenefitClubAPIv1ViewSet(viewsets.ModelViewSet):
+    serializer_class = serializers.BenefitsClubSerializer
+    queryset = models.BenefitClub.objects.all()
+
+
+class SubscriptionsAPIv1ViewSet(viewsets.ModelViewSet):
+    serializer_class = serializers.SubscriptionsSerializer
+    queryset = models.Subscriptions.objects.all()
+
+
+class UserAPIv1ViewSet(viewsets.ModelViewSet):
+    serializer_class = serializers.UserSerializer
+    queryset = models.User.objects.all()

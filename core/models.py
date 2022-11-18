@@ -41,7 +41,7 @@ class User(AbstractUser):
     REQUIRED_FIELDS = []
 
 class Student(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='user')
     name = models.CharField(max_length=255)
     nickname = models.CharField(max_length=255)
     lastname = models.CharField(max_length=255)

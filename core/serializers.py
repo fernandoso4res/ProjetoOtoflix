@@ -25,4 +25,21 @@ class DeckSerializer(serializers.ModelSerializer):
         fields = ['id', 'title', 'user', 'flashcards']
         
     
-    
+class BenefitsClubSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.BenefitClub
+        fields = ['id', 'benefit_name', 'benefit_description', 'benefit_end_date', 'benefit_percentage', 'saved_amount', 'benefit_link']
+
+
+class UserSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = models.User
+        fields = ['id', 'email', 'first_name', 'last_name', 'is_active', 'is_student', 'is_teacher']
+
+
+class SubscriptionsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Subscriptions
+        fields = ['id', 'student_id', 'subscription_name', 'subscription_description', 'subscription_price', 'subscription_duration_unit', 'subscription_duration_value']
+
