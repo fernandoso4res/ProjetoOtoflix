@@ -14,8 +14,11 @@ router.register(r'users', views.UserAPIv1ViewSet)
 router.register(r'students', views.StudentAPIv1ViewSet)
 
 urlpatterns = [
-    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/auth/login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
+    path('api/v1/auth/register-student/', views.StudentAPIv1Create.as_view(), name='register-student'),
+    path('api/v1/auth/register-teacher/', views.TeacherAPIv1Create.as_view(), name='register-teacher'),
+    path('api/v1/auth/register-administrator/', views.AdministratorAPIv1Create.as_view(), name='register-administrator'),
     path('api/v1/', include((router.urls, 'core'))),
 ]

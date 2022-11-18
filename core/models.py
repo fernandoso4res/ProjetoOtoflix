@@ -56,8 +56,8 @@ class Teacher(models.Model):
     user_type = models.CharField(max_length=255, default='Teacher')
     token = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
-    revenue = models.FloatField()
-    show_revenue = models.BooleanField()
+    revenue = models.FloatField(default=0)
+    show_revenue = models.BooleanField(default=True)
 
 
 class Category(models.Model):
