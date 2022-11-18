@@ -12,6 +12,9 @@ router.register(r'benefits_club', views.BenefitClubAPIv1ViewSet)
 router.register(r'subscriptions', views.SubscriptionsAPIv1ViewSet)
 router.register(r'users', views.UserAPIv1ViewSet)
 router.register(r'students', views.StudentAPIv1ViewSet)
+router.register(r'questions-multiple-choice', views.QuestionsMultipleChoiceAPIv1ViewSet)
+router.register(r'questions-text', views.QuestionsTextAPIv1ViewSet)
+router.register(r'simulated', views.SimulatedAPIv1ViewSet)
 
 urlpatterns = [
     path('api/auth/login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),

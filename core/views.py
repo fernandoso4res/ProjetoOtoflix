@@ -48,3 +48,17 @@ class TeacherAPIv1Create(CreateAPIView):
 class AdministratorAPIv1Create(CreateAPIView):
     serializer_class = serializers.UserSerializer
     queryset = models.User.objects.all()
+
+
+class SimulatedAPIv1ViewSet(viewsets.ModelViewSet):
+    serializer_class = serializers.SimulatedSerializer
+    queryset = models.Simulated.objects.all()
+
+
+class QuestionsTextAPIv1ViewSet(viewsets.ModelViewSet):
+    serializer_class = serializers.QuestionsTextSerializer
+    queryset = models.QuestionsText.objects.all()
+
+class QuestionsMultipleChoiceAPIv1ViewSet(viewsets.ModelViewSet):
+    serializer_class = serializers.QuestionsMultipleChoiceSerializer
+    queryset = models.QuestionsMultipeChoice.objects.all()

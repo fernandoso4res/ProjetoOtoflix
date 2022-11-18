@@ -24,6 +24,16 @@ class BenefitsClubSerializer(serializers.ModelSerializer):
         model = models.BenefitClub
         fields = ['id', 'benefit_name', 'benefit_description', 'benefit_end_date', 'benefit_percentage', 'saved_amount', 'benefit_link']
 
+class QuestionsTextSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.QuestionsText
+        fields = ['category', 'question', 'image', 'video', 'type_question']
+        
+class QuestionsMultipleChoiceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.QuestionsMultipeChoice
+        fields = ['category', 'question', 'image', 'video', 'type_question', 'right_answer', 'explication', 'alternatives']
+
 
 class BaseUserRegisterMixin:
     def create_user(self, validated_data, is_student=False, is_teacher=False) -> models.User:
@@ -120,3 +130,8 @@ class TeacherSerializer(serializers.ModelSerializer, BaseUserRegisterMixin):
         teacher = models.Teacher.objects.create(user=user, revenue=0, show_revenue=True)
         return teacher
 
+
+class SimulatedSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Simulated
+        fields = ['teacher_id', 'creator', 'created_at', 'limit_time', 'category']
