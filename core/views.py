@@ -62,3 +62,4 @@ class QuestionsTextAPIv1ViewSet(viewsets.ModelViewSet):
 class QuestionsMultipleChoiceAPIv1ViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.QuestionsMultipleChoiceSerializer
     queryset = models.QuestionsMultipeChoice.objects.all()
+
