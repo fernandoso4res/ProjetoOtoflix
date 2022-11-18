@@ -36,16 +36,14 @@ class User(AbstractUser):
     is_teacher = models.BooleanField(default=False)
     username = None
     email = models.EmailField(unique=True)
+
+    proflie_picture = models.ImageField(upload_to='core/pictures/%Y/%m/%d/', blank=True, null=True)
     objects = UserManager()
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 
 class Student(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='user')
-    name = models.CharField(max_length=255)
-    nickname = models.CharField(max_length=255)
-    lastname = models.CharField(max_length=255)
-    proflie_picture = models.ImageField(upload_to='core/pictures/%Y/%m/%d/')
     user_type = models.CharField(max_length=255)
     token = models.TextField()
     created_at = models.DateTimeField( auto_now_add=True)
@@ -57,9 +55,6 @@ class Student(models.Model):
     
 class Teacher(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    name = models.CharField(max_length=255)
-    lastname = models.CharField(max_length=255)
-    profile_picture = models.ImageField(upload_to='core/pictures/%Y/%m/%d/')
     user_type = models.CharField(max_length=255)
     token = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
