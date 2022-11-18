@@ -4,11 +4,6 @@ from . import models
 
 
 
-class StudentAddPointSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.Student
-        fields = ['name', 'points']
-
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.User
