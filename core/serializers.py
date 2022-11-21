@@ -4,6 +4,7 @@ from rest_framework.exceptions import ValidationError
 from . import models
 
 
+<<<<<<< HEAD
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -37,6 +38,8 @@ class StudentSerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'nickname', 'lastname', 'proflie_picture']
         
 
+=======
+>>>>>>> 224526c90154da97a30a4cd438c928f2ebf3717d
 class FlashCardSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.FlashCard
@@ -167,4 +170,8 @@ class TeacherSerializer(serializers.ModelSerializer, BaseUserRegisterMixin):
 class SimulatedSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Simulated
+<<<<<<< HEAD
         fields = ['teacher_id', 'creator', 'created_at', 'limit_time', 'category']
+=======
+        fields = ['teacher_id', 'creator', 'created_at', 'limit_time', 'category']
+>>>>>>> 224526c90154da97a30a4cd438c928f2ebf3717d

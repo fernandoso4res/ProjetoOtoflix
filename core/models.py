@@ -48,8 +48,14 @@ class Student(models.Model):
     user_type = models.CharField(max_length=255, default='Student')
     token = models.TextField()
     created_at = models.DateTimeField( auto_now_add=True)
+<<<<<<< HEAD
     total = models.FloatField() 
   
+=======
+    total = models.FloatField()
+    
+    
+>>>>>>> 224526c90154da97a30a4cd438c928f2ebf3717d
 class Teacher(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     user_type = models.CharField(max_length=255, default='Teacher')
