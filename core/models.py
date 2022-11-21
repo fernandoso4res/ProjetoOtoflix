@@ -37,31 +37,26 @@ class User(AbstractUser):
     username = None
     email = models.EmailField(unique=True)
 
+    profile_picture = models.ImageField(upload_to='core/pictures/%Y/%m/%d/', blank=True, null=True)
+    nickname = models.CharField(max_length=255, blank=True, null=True)
     objects = UserManager()
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 
 class Student(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    name = models.CharField(max_length=255)
-    nickname = models.CharField(max_length=255)
-    lastname = models.CharField(max_length=255)
-    proflie_picture = models.ImageField(upload_to='core/pictures/%Y/%m/%d/')
-    user_type = models.CharField(max_length=255)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='user')
+    user_type = models.CharField(max_length=255, default='Student')
     token = models.TextField()
     created_at = models.DateTimeField( auto_now_add=True)
     total = models.FloatField() 
   
 class Teacher(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    name = models.CharField(max_length=255)
-    lastname = models.CharField(max_length=255)
-    profile_picture = models.ImageField(upload_to='core/pictures/%Y/%m/%d/')
-    user_type = models.CharField(max_length=255)
+    user_type = models.CharField(max_length=255, default='Teacher')
     token = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
-    revenue = models.FloatField()
-    show_revenue = models.BooleanField()
+    revenue = models.FloatField(default=0)
+    show_revenue = models.BooleanField(default=True)
 
 
 class Category(models.Model):

@@ -11,7 +11,7 @@ from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 
 
-chema_view = get_schema_view(
+schema_view = get_schema_view(
    openapi.Info(
       title="API Docs",
       default_version='v1',
@@ -27,7 +27,6 @@ chema_view = get_schema_view(
 
 
 router = routers.SimpleRouter()
-router.register(r'student', views.StudentAPIv1ViewSet)
 router.register(r'flashcards', views.FlashCardAPIv1ViewSet)
 router.register(r'decks', views.DeckAPIv1ViewSet)
 router.register(r'subscriptions', views.SubscriptionsAPIv1ViewSet)
@@ -35,14 +34,27 @@ router.register(r'questions-multiple-choice', views.QuestionsMultipleChoiceAPIv1
 router.register(r'questions-text', views.QuestionsTextAPIv1ViewSet)
 router.register(r'simulated', views.SimulatedAPIv1ViewSet)
 router.register(r'user', views.UserAPIv1ViewSet)
-router.register(r'student-add-points', views.StudentAddPointAPIv1ViewSet)
+router.register(r'student-add-points', views.StudentAPIv1ViewSet)
+router.register(r'benefits_club', views.BenefitClubAPIv1ViewSet)
+router.register(r'subscriptions', views.SubscriptionsAPIv1ViewSet)
+router.register(r'users', views.UserAPIv1ViewSet)
+router.register(r'students', views.StudentAPIv1ViewSet)
+router.register(r'questions-multiple-choice', views.QuestionsMultipleChoiceAPIv1ViewSet)
+router.register(r'questions-text', views.QuestionsTextAPIv1ViewSet)
+router.register(r'simulated', views.SimulatedAPIv1ViewSet)
 
 urlpatterns = [
+    path('api/auth/login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
+    path('api/v1/auth/register-student/', views.StudentAPIv1Create.as_view(), name='register-student'),
+    path('api/v1/auth/register-teacher/', views.TeacherAPIv1Create.as_view(), name='register-teacher'),
+    path('api/v1/auth/register-administrator/', views.AdministratorAPIv1Create.as_view(), name='register-administrator'),
     path('api/v1/', include((router.urls, 'core'))),
     path('api/v1/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/v1/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/v1/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
     path('api/v1/', include((router.urls, 'core'))),
 
-    path('swagger', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    path('ap1/v1/swagger', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
 ]
