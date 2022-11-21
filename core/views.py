@@ -3,9 +3,6 @@ from rest_framework.generics import ListAPIView
 
 from . import models, serializers
 
-class StudentAddPointAPIv1ViewSet(viewsets.ModelViewSet):
-    serializer_class = serializers.StudentAddPointSerializer
-    queryset = models.Student.objects.all()
 
 class UserAPIv1ViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.UserSerializer
