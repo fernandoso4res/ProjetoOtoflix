@@ -4,73 +4,6 @@ from rest_framework.exceptions import ValidationError
 from . import models
 
 
-<<<<<<< HEAD
-
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.User
-        fields = ['is_student', 'is_teacher', 'username', 'email']
-
-class SimulatedSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.Simulated
-        fields = ['teacher_id', 'creator', 'created_at', 'limit_time', 'category']
-
-class QuestionsTextSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.QuestionsText
-        fields = ['category', 'question', 'image', 'video', 'type_question']
-
-class QuestionsMultipleChoiceSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.QuestionsMultipeChoice
-        fields = ['category', 'question', 'image', 'video', 'type_question', 'right_answer', 'explication', 'alternatives']
-
-class SubscriptionsSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.Subscriptions
-        fields = ['subscriptions_id', 'subscriptions_name', 'subscriptions_description', 'subscriptions_price', 'subscriptions_duration_unit', 'subscriptions_duration_value']
-
-
-class StudentSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.Student
-        fields = ['id', 'name', 'nickname', 'lastname', 'proflie_picture']
-        
-
-=======
->>>>>>> 224526c90154da97a30a4cd438c928f2ebf3717d
-class FlashCardSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.FlashCard
-        fields = ['id', 'question', 'answer', 'category', 'deck']
-    
-
-    category = serializers.StringRelatedField(many=False)
-
-class DeckSerializer(serializers.ModelSerializer):
-    flashcards = FlashCardSerializer(many=True, read_only=True)
-    class Meta:
-        model = models.Deck
-        fields = ['id', 'title', 'user', 'flashcards']
-        
-    
-class BenefitsClubSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.BenefitClub
-        fields = ['id', 'benefit_name', 'benefit_description', 'benefit_end_date', 'benefit_percentage', 'saved_amount', 'benefit_link']
-
-class QuestionsTextSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.QuestionsText
-        fields = ['category', 'question', 'image', 'video', 'type_question']
-        
-class QuestionsMultipleChoiceSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.QuestionsMultipeChoice
-        fields = ['category', 'question', 'image', 'video', 'type_question', 'right_answer', 'explication', 'alternatives']
-
-
 class BaseUserRegisterMixin:
     def create_user(self, validated_data, is_student=False, is_teacher=False) -> models.User:
         first_name = validated_data['first_name']
@@ -123,13 +56,6 @@ class UserSerializer(serializers.ModelSerializer, BaseUserRegisterMixin):
         user.save()
         return user
 
-
-class SubscriptionsSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.Subscriptions
-        fields = ['id', 'student_id', 'subscription_name', 'subscription_description', 'subscription_price', 'subscription_duration_unit', 'subscription_duration_value', ]
-
-
 class StudentSerializer(serializers.ModelSerializer, BaseUserRegisterMixin):
     first_name = serializers.CharField(max_length = 150, write_only=True)
     last_name = serializers.CharField(max_length = 150, write_only=True)
@@ -138,18 +64,32 @@ class StudentSerializer(serializers.ModelSerializer, BaseUserRegisterMixin):
     password = serializers.CharField(max_length = 255, write_only=True)
 
     class Meta:
-        model = models.Student
-        fields = ['id', 'user', 'user_type', 'created_at', 'total', 'first_name', 'last_name', 'email', 'nickname', 'password']
-        read_only_fields = ['id', 'user', 'user_type', 'created_at', 'total']
+        model = models.User
+        fields = ['name','first_name', 'last_name', 'email', 'nickname', 'password']
+        read_only_fields = ['user', 'user_type', 'created_at', 'total']
+    
+    def create(self, validated_data):
+        first_name = validated_data['first_name']
+        last_name = validated_data['last_name']
+        email = validated_data['email']
+        nickname = validated_data['nickname']
+        password = validated_data['password']
+        user = models.User(
+            first_name=first_name,
+            last_name=last_name,
+            email=email,
+            nickname=nickname,
+            password=password,
+            is_staff=True,
+        )
+        user.set_password(password)
+        user.save()
+        return user
+
     
 
-    def create(self, validated_data):
-        user = self.create_user(validated_data, is_student=True)
-        student = models.Student.objects.create(user=user, total=0)
-        return student
 
-
-class TeacherSerializer(serializers.ModelSerializer, BaseUserRegisterMixin):
+'''class TeacherSerializer(serializers.ModelSerializer, BaseUserRegisterMixin):
     first_name = serializers.CharField(max_length = 150, write_only=True)
     last_name = serializers.CharField(max_length = 150, write_only=True)
     email = serializers.EmailField(write_only=True)
@@ -167,11 +107,48 @@ class TeacherSerializer(serializers.ModelSerializer, BaseUserRegisterMixin):
         return teacher
 
 
+class FlashCardSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.FlashCard
+        fields = ['id', 'question', 'answer', 'category', 'deck']
+    
+
+    category = serializers.StringRelatedField(many=False)
+
+class DeckSerializer(serializers.ModelSerializer):
+    flashcards = FlashCardSerializer(many=True, read_only=True)
+    class Meta:
+        model = models.Deck
+        fields = ['id', 'title', 'user', 'flashcards']
+        
+    
+class BenefitsClubSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.BenefitClub
+        fields = ['id', 'benefit_name', 'benefit_description', 'benefit_end_date', 'benefit_percentage', 'saved_amount', 'benefit_link']
+
+class QuestionsTextSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.QuestionsText
+        fields = ['category', 'question', 'image', 'video', 'type_question']
+        
+class QuestionsMultipleChoiceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.QuestionsMultipeChoice
+        fields = ['category', 'question', 'image', 'video', 'type_question', 'right_answer', 'explication', 'alternatives']
+
+
+
+
 class SimulatedSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Simulated
-<<<<<<< HEAD
         fields = ['teacher_id', 'creator', 'created_at', 'limit_time', 'category']
-=======
-        fields = ['teacher_id', 'creator', 'created_at', 'limit_time', 'category']
->>>>>>> 224526c90154da97a30a4cd438c928f2ebf3717d
+
+class SubscriptionsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Subscriptions
+        fields = ['id', 'student_id', 'subscription_name', 'subscription_description', 'subscription_price', 'subscription_duration_unit', 'subscription_duration_value', ]
+
+'''
+
