@@ -5,9 +5,6 @@ from .permis import IsStudent
 
 from . import models, serializers
 
-
-
-
 class UserAPIv1ViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.UserSerializer
     queryset = models.User.objects.all()
@@ -16,10 +13,34 @@ class UserAPIv1ViewSet(viewsets.ModelViewSet):
 class StudentAPIv1Create(CreateAPIView):
     serializer_class = serializers.StudentSerializer
     queryset = models.User.objects.all()
+    
 
 class AdministratorAPIv1Create(CreateAPIView):
     serializer_class = serializers.UserSerializer
     queryset = models.User.objects.all()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 '''class StudentAPIv1ViewSet(viewsets.ModelViewSet):

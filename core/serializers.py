@@ -32,7 +32,7 @@ class BaseUserRegisterMixin:
 
         return value
 
-class UserSerializer(serializers.ModelSerializer, BaseUserRegisterMixin):
+class UserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(max_length=150, write_only=True)
     class Meta:
         model = models.User
@@ -56,7 +56,7 @@ class UserSerializer(serializers.ModelSerializer, BaseUserRegisterMixin):
         user.save()
         return user
 
-class StudentSerializer(serializers.ModelSerializer, BaseUserRegisterMixin):
+class StudentSerializer(serializers.ModelSerializer):
     first_name = serializers.CharField(max_length = 150, write_only=True)
     last_name = serializers.CharField(max_length = 150, write_only=True)
     email = serializers.EmailField(write_only=True)
@@ -65,8 +65,9 @@ class StudentSerializer(serializers.ModelSerializer, BaseUserRegisterMixin):
 
     class Meta:
         model = models.User
-        fields = ['name','first_name', 'last_name', 'email', 'nickname', 'password']
-        read_only_fields = ['user', 'user_type', 'created_at', 'total']
+        if model.is_student:
+            fields = ['name','first_name', 'last_name', 'email', 'nickname', 'password']
+            read_only_fields = ['user', 'user_type', 'created_at', 'total']
     
     def create(self, validated_data):
         first_name = validated_data['first_name']

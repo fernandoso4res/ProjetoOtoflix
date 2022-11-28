@@ -52,7 +52,16 @@ class User(AbstractUser):
 
 
 
-
+class Student(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    name = models.CharField(max_length=255, default="")
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='user')
+    user_type = models.CharField(max_length=255, default='Student')
+    created_at = models.DateTimeField( auto_now_add=True)
+    
+    
+    def __str__(self):
+        return self.name
 
 
 
